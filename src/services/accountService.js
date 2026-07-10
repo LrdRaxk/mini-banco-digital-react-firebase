@@ -73,6 +73,69 @@ export async function transferMoney({
   });
 }
 
+export async function depositMoney({ userUid, userEmail, amount, description }) {
+  const userRef = doc(db, "users", userUid);
+  const movementRef = doc(collection(db, "movimientos"));
+
+  await runTransaction(db, async (transaction) => {
+    const userSnapshot = await transaction.get(userRef);
+
+    if (!userSnapshot.exists()) {
+      throw new Error("USER_NOT_FOUND");
+    }
+
+    transaction.update(userRef, {
+      saldo: increment(amount),
+    });
+
+    transaction.set(movementRef, {
+      emisorUid: userUid,
+      emisorEmail: userEmail,
+      receptorUid: userUid,
+      receptorEmail: userEmail,
+      tipoOperacion: "deposito",
+      monto: amount,
+      descripcion: description || "Depósito simulado",
+      fecha: serverTimestamp(),
+    });
+  });
+}
+
+export async function withdrawMoney({ userUid, userEmail, amount, description }) {
+  const userRef = doc(db, "users", userUid);
+  const movementRef = doc(collection(db, "movimientos"));
+
+  await runTransaction(db, async (transaction) => {
+    const userSnapshot = await transaction.get(userRef);
+
+    if (!userSnapshot.exists()) {
+      throw new Error("USER_NOT_FOUND");
+    }
+
+    const userData = userSnapshot.data();
+    const currentBalance = Number(userData.saldo || 0);
+
+    if (currentBalance < amount) {
+      throw new Error("INSUFFICIENT_FUNDS");
+    }
+
+    transaction.update(userRef, {
+      saldo: increment(-amount),
+    });
+
+    transaction.set(movementRef, {
+      emisorUid: userUid,
+      emisorEmail: userEmail,
+      receptorUid: userUid,
+      receptorEmail: userEmail,
+      tipoOperacion: "retiro",
+      monto: amount,
+      descripcion: description || "Retiro simulado",
+      fecha: serverTimestamp(),
+    });
+  });
+}
+
 export function subscribeToUserMovements(userUid, handleData, handleError) {
   const movementsRef = collection(db, "movimientos");
 

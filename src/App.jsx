@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dashboard from "./components/Dashboard";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
-import useAuth from "./hooks/useAuth";
+import { useAuthContext } from "./context/AuthContext";
 import "./App.css";
 
 function App() {
   const [authMode, setAuthMode] = useState("login");
-  const { user, isCheckingAuth } = useAuth();
+
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light";
+  });
+
+  const { user, isCheckingAuth, authError } = useAuthContext();
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const handleShowLogin = () => {
     setAuthMode("login");
@@ -15,6 +25,12 @@ function App() {
 
   const handleShowRegister = () => {
     setAuthMode("register");
+  };
+
+  const handleToggleTheme = () => {
+    setTheme((currentTheme) => {
+      return currentTheme === "light" ? "dark" : "light";
+    });
   };
 
   if (isCheckingAuth) {
@@ -27,10 +43,24 @@ function App() {
     );
   }
 
+  if (authError) {
+    return (
+      <main className="app">
+        <section className="card">
+          <p className="error-message">{authError}</p>
+        </section>
+      </main>
+    );
+  }
+
   if (user) {
     return (
       <main className="app">
-        <Dashboard user={user} />
+        <Dashboard
+          user={user}
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
+        />
       </main>
     );
   }
@@ -40,6 +70,14 @@ function App() {
       <section className="card">
         <h1>Banco React</h1>
         <p>Sistema básico de login bancario con React y Firebase.</p>
+
+        <button
+          type="button"
+          className="theme-toggle login-theme-toggle"
+          onClick={handleToggleTheme}
+        >
+          {theme === "light" ? "Modo oscuro" : "Modo claro"}
+        </button>
 
         <div className="tabs">
           <button

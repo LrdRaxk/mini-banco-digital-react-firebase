@@ -4,8 +4,9 @@ import useUserAccount from "../hooks/useUserAccount";
 import useUserMovements from "../hooks/useUserMovements";
 import TransferForm from "./TransferForm";
 import MovementList from "./MovementList";
+import BalanceActions from "./BalanceActions";
 
-function Dashboard({ user }) {
+function Dashboard({ user, theme, onToggleTheme }) {
   const { account, isLoadingAccount, accountError } = useUserAccount(user);
   const { movements, isLoadingMovements, movementsError } = useUserMovements(user);
 
@@ -28,6 +29,16 @@ function Dashboard({ user }) {
           <p>Bienvenido al panel bancario.</p>
         </div>
 
+        <div className="dashboard-actions">
+          <button type="button" className="theme-toggle" onClick={onToggleTheme}>
+            {theme === "light" ? "Modo oscuro" : "Modo claro"}
+          </button>
+
+          <button type="button" className="secondary" onClick={handleLogoutClick}>
+            Cerrar sesión
+          </button>
+        </div>        
+
         <button type="button" className="secondary" onClick={handleLogoutClick}>
           Cerrar sesión
         </button>
@@ -49,6 +60,8 @@ function Dashboard({ user }) {
             <small>{account.nombre}</small>
             <small>{account.email}</small>
           </div>
+
+          <BalanceActions user={user} account={account} />
 
           <TransferForm user={user} account={account} />
             <MovementList

@@ -64,6 +64,7 @@ Todas las suscripciones creadas en useEffect retornan su función de limpieza me
 - Instalar dependencias como: npm install
 
 - Crear un archivo .env en la raíz del proyecto con las siguientes variables:
+
     VITE_FIREBASE_API_KEY=
     VITE_FIREBASE_AUTH_DOMAIN=
     VITE_FIREBASE_PROJECT_ID=
@@ -173,3 +174,18 @@ Durante el desarrollo de este proyecto utilicé asistencia de IA como apoyo para
 La IA fue usada como herramienta de aprendizaje y guía, pero el código fue revisado, probado y adaptado manualmente durante el desarrollo. Se realizaron pruebas locales para validar el registro, inicio de sesión, saldo en tiempo real, transferencias, historial de movimientos y cierre de sesión
 
 También se utilizó IA para apoyar la redacción del README y para identificar errores durante la implementación, como imports faltantes, estados no definidos y suscripciones en tiempo real
+
+## Funcionalidades extra implementadas
+
+- Depósito y retiro simulado con validaciones.
+- Filtro y búsqueda en el historial de movimientos por tipo, correo o descripción.
+- Modo oscuro persistente usando `localStorage`.
+- Estado global de sesión usando `useReducer` y `useContext`.
+
+## Estado global de sesión
+
+La sesión del usuario se maneja mediante `useReducer` y `useContext`.
+
+El componente `AuthProvider` escucha los cambios de Firebase Authentication usando `onAuthStateChanged` y actualiza el estado global mediante acciones como `AUTH_SUCCESS`, `AUTH_LOGOUT` y `AUTH_ERROR`.
+
+Esto permite centralizar el estado de sesión y consumirlo desde la aplicación mediante `useAuthContext`.
