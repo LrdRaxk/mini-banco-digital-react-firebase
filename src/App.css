@@ -190,8 +190,8 @@ button.active {
 
 .dashboard-title-area {
   display: flex;
-  align-items: center;
-  gap: 18px;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .bank-label {
@@ -219,8 +219,9 @@ button.active {
 
 .dashboard-actions {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .theme-toggle {
@@ -439,6 +440,20 @@ button.active {
 
 /* Modo oscuro */
 
+body[data-theme="dark"] .dashboard-header h1,
+body[data-theme="dark"] .card h1 {
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .dashboard-header p,
+body[data-theme="dark"] .card p {
+  color: #d6e5db;
+}
+
+.dashboard-actions button {
+  min-width: 140px;
+}
+
 body[data-theme="dark"] {
   --primary: #22c06b;
   --primary-dark: #16a05a;
@@ -532,7 +547,6 @@ body[data-theme="dark"] .balance-box {
 
   .dashboard-title-area {
     width: 100%;
-    justify-content: space-between;
     align-items: flex-start;
   }
 
@@ -542,6 +556,15 @@ body[data-theme="dark"] .balance-box {
 
   .quick-actions {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard-actions {
+  width: 100%;
+  align-items: stretch;
+  }
+
+  .dashboard-actions button {
+    width: 100%;
   }
 }
 

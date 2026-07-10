@@ -38,20 +38,20 @@ function Dashboard({ user, theme, onToggleTheme }) {
     <section className="dashboard-card">
       <header className="dashboard-header">
         <div className="dashboard-title-area">
-          <div>
-            <span className="bank-label">Mini Banco Digital</span>
-            <h1>Banco React</h1>
-            <p>Bienvenido al panel bancario.</p>
-          </div>
+          <span className="bank-label">Mini Banco Digital</span>
+          <h1>Banco React</h1>
+          <p>Bienvenido al panel bancario.</p>
+        </div>
+
+        <div className="dashboard-actions">
+          <button type="button" className="secondary logout-button" onClick={handleLogoutClick}>
+            Cerrar sesión
+          </button>
 
           <button type="button" className="theme-toggle" onClick={onToggleTheme}>
             {theme === "light" ? "Modo oscuro" : "Modo claro"}
           </button>
         </div>
-
-        <button type="button" className="secondary logout-button" onClick={handleLogoutClick}>
-          Cerrar sesión
-        </button>
       </header>
 
       {isLoadingAccount && (
