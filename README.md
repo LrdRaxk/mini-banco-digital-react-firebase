@@ -166,3 +166,10 @@ src/
   App.css
   main.jsx
 
+## Uso de IA
+
+Durante el desarrollo de este proyecto utilicé asistencia de IA como apoyo para orientar la estructura general de la aplicación, resolver dudas puntuales de React y Firebase, y revisar buenas prácticas relacionadas con manejo de eventos, programación reactiva y organización de componentes
+
+La IA fue usada como herramienta de aprendizaje y guía, pero el código fue revisado, probado y adaptado manualmente durante el desarrollo. Se realizaron pruebas locales para validar el registro, inicio de sesión, saldo en tiempo real, transferencias, historial de movimientos y cierre de sesión
+
+También se utilizó IA para apoyar la redacción del README y para identificar errores durante la implementación, como imports faltantes, estados no definidos y suscripciones en tiempo real
